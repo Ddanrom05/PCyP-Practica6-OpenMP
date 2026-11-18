@@ -5,6 +5,7 @@
 #include <sstream>
 #include <algorithm>
 #include <cmath>
+#include <cctype>
 #include <omp.h>
 
 using namespace std;
@@ -211,7 +212,18 @@ int raicesCuadratica(double a, double b, double c, double& x1, double& x2){
     return (discriminante == 0) ? 1 : 2;
 }
 
-//Contar apariciones de una palabra en un texto
+//Contar apariciones de una palabra en un texto (no cuenta bien)
+
+//auxiliar para limpiar puntuacion
+string limpiarPuntuacion(const string& str) {
+    string limpia;
+    for (char c : str) {
+        if (!ispunct(static_cast<unsigned char>(c))){
+            limpia += c;
+        }
+    }
+    return limpia;
+}
 
 int contarApariciones(const string& texto, const string& palabra){
     vector<string> palabras;
@@ -220,7 +232,7 @@ int contarApariciones(const string& texto, const string& palabra){
 
     //separa el texto en palabras
     while (ss >> w)
-        palabras.push_back(w);
+        palabras.push_back(limpiarPuntuacion(w));
 
     int coincidencias = 0;
 
